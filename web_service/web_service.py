@@ -24,11 +24,23 @@ li { background: white; margin: 5px auto; width: 200px; padding: 8px; border-rad
 <form method="POST">
   <input type="text" name="isim" placeholder="Adını yaz" required>
   <button type="submit">Gönder</button>
+
+  <p>Şehir yaz</p>
+<form method="POST">
+  <input type="text" name="sehir" placeholder="Şehir yaz" required>
+  <button type="submit">Gönder</button>
 </form>
 
 <h3>Ziyaretçiler:</h3>
 <ul>
 {% for ad in isimler %}
+  <li>{{ ad }}</li>
+{% endfor %}
+</ul>
+
+<h3>Şehirler:</h3>
+<ul>
+{% for ad in sehirler %}
   <li>{{ ad }}</li>
 {% endfor %}
 </ul>
