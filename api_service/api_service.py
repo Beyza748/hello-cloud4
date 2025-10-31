@@ -19,6 +19,7 @@ def ziyaretciler():
 
     if request.method == "POST":
         isim = request.json.get("isim")
+        sehir = request.json.get("sehir")
         if isim:
             cur.execute("INSERT INTO ziyaretciler (isim) VALUES (%s)", (isim,))
             conn.commit()
