@@ -20,13 +20,12 @@ li { background: white; margin: 5px auto; width: 200px; padding: 8px; border-rad
 </head>
 <body>
 <h1>Mikro Hizmetli Selam!</h1>
-<p>Adını yaz</p>
-<p>Şehir yaz</p>
+<p>Adını yaz</p>                <p>Şehir yaz</p>
 <form method="POST">
   <input type="text" name="isim" placeholder="Adını yaz" required>  
   <input type="text" name="sehir" placeholder="Şehir yaz" required>
   <button type="submit">Gönder</button>
-
+</form>
 <h3>Ziyaretçiler:</h3>
 <ul>
 {% for ad in isimler %}
