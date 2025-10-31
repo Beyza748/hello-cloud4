@@ -31,20 +31,21 @@ def ziyaretciler():
 
     return jsonify(isimler)
 
-# Yeni: şehir endpoint'i — ziyaretciler ile aynı mantıkta
-@app.route("/sehir", methods=["GET", "POST"])
-def sehir():
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5001)
+
+
+@app.route("/sehirler", methods=["GET", "POST"])
+def sehirler():
     conn = connect_db()
     cur = conn.cursor()
 
-    # Tablo adı sehirler — ziyaretciler ile çakışmaz
     cur.execute("CREATE TABLE IF NOT EXISTS sehirler (id SERIAL PRIMARY KEY, isim TEXT)")
 
     if request.method == "POST":
-        # Hem "isim" hem de "sehir" alanlarını kabul edelim
-        isim = request.json.get("isim") or request.json.get("sehir")
-        if isim:
-            cur.execute("INSERT INTO sehirler (isim) VALUES (%s)", (isim,))
+        sehir = request.json.get("sehir")
+        if sehir:
+            cur.execute("INSERT INTO sehirler (isim) VALUES (%s)", (sehir,))
             conn.commit()
 
     cur.execute("SELECT isim FROM sehirler ORDER BY id DESC LIMIT 10")
@@ -54,6 +55,3 @@ def sehir():
     conn.close()
 
     return jsonify(sehirler)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001)
