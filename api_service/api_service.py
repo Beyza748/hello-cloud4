@@ -31,25 +31,6 @@ def ziyaretciler():
 
     return jsonify(isimler)
 
-def sehirler():
-    conn = connect_db()
-    cur = conn.cursor()
-
-    cur.execute("CREATE TABLE IF NOT EXISTS sehirler (id SERIAL PRIMARY KEY, isim TEXT)")
-
-    if request.method == "POST":
-        sehir = request.json.get("sehir")
-        if sehir:
-            cur.execute("INSERT INTO sehirler (sehir) VALUES (%s)", (sehir,))
-            conn.commit()
-
-    cur.execute("SELECT sehir FROM sehirler ORDER BY id DESC LIMIT 10")
-    sehirler = [row[0] for row in cur.fetchall()]
-
-    cur.close()
-    conn.close()
-
-    return jsonify(sehirler)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
