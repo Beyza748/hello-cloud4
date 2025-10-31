@@ -43,9 +43,8 @@ def index():
         requests.post(API_URL + "/ziyaretciler", json={"isim": isim})
         return redirect("/")
 
-    resp = requests.get(API_URL + "/ziyaretciler")
-    isimler = resp.json() if resp.status_code == 200 else []
-    return render_template_string(HTML, isimler=isimler)
+    cur.close()
+    conn.close()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
