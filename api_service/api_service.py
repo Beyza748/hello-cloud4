@@ -49,6 +49,10 @@ def sehirler():
     cur.close()
     conn.close()
 
+    if request.headers.get("Accept", "").startswith("text/html"):
+    html = "<h2>Son 10 Şehir</h2>" + "<br>".join(sehirler)
+    return html
+
     return jsonify(sehirler)
 
 
