@@ -3,9 +3,10 @@ import requests
 
 app = Flask(__name__)
 
-API_URL = "https://hello-cloud4-16.onrender.com"
+API_URL = "https://hello-cloud4.onrender.com"
 
 HTML = """
+
 <!doctype html>
 <html>
 <head>
@@ -19,20 +20,24 @@ li { background: white; margin: 5px auto; width: 200px; padding: 8px; border-rad
 </style>
 </head>
 <body>
+
 <h1>Mikro Hizmetli Selam!</h1>
 <p>Adını yaz</p>
 <form method="POST">
-    <input type="text" name="isim" placeholder="Adını yaz" required>
-    <button type="submit">Gönder</button>
+<input type="text" name="isim" placeholder="Adını yaz" required>
+<button type="submit">Gönder</button>
 </form>
+
 <h3>Ziyaretçiler:</h3>
 <ul>
 {% for ad in isimler %}
-    <li>{{ ad }}</li>
+<li>{{ ad }}</li>
 {% endfor %}
 </ul>
+
 </body>
 </html>
+
 """
 
 @app.route("/", methods=["GET", "POST"])
@@ -45,6 +50,7 @@ def index():
     resp = requests.get(API_URL + "/ziyaretciler")
     isimler = resp.json() if resp.status_code == 200 else []
     return render_template_string(HTML, isimler=isimler)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
