@@ -54,7 +54,7 @@ def index():
     isimler = resp.json() if resp.status_code == 200 else []
     return render_template_string(HTML, isimler=isimler)
 
-@app.route("/", methods=["GET", "POST"])
+
 def index():
     if request.method == "POST":
         isim = request.form.get("sehir")
