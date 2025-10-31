@@ -23,7 +23,6 @@ li { background: white; margin: 5px auto; width: 200px; padding: 8px; border-rad
 <p>Adını yaz         /       Şehir yaz</p>
 <form method="POST">
   <input type="text" name="isim" placeholder="Adını yaz" required>  
-  <input type="text" name="sehir" placeholder="Şehir yaz" required>
   <button type="submit">Gönder</button>
 </form>
 <h3>Ziyaretçiler:</h3>
@@ -33,12 +32,6 @@ li { background: white; margin: 5px auto; width: 200px; padding: 8px; border-rad
 {% endfor %}
 </ul>
 
-<h3>Şehirler:</h3>
-<ul>
-{% for ad in sehirler %}
-  <li>{{ ad }}</li>
-{% endfor %}
-</ul>
 </body>
 </html>
 """
@@ -53,17 +46,6 @@ def index():
     resp = requests.get(API_URL + "/ziyaretciler")
     isimler = resp.json() if resp.status_code == 200 else []
     return render_template_string(HTML, isimler=isimler)
-
-
-def index():
-    if request.method == "POST":
-        sehir = request.form.get("sehir")
-        requests.post(API_URL + "/sehirler", json={"sehir": sehir})
-        return redirect("/")
-
-    resp = requests.get(API_URL + "/sehirler")
-    sehirler = resp.json() if resp.status_code == 200 else []
-    return render_template_string(HTML, sehirler=sehirler)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
