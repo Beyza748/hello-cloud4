@@ -57,7 +57,7 @@ def index():
 
 def index():
     if request.method == "POST":
-        isim = request.form.get("sehir")
+        sehir = request.form.get("sehir")
         requests.post(API_URL + "/sehirler", json={"sehir": sehir})
         return redirect("/")
 
