@@ -34,9 +34,9 @@ def ziyaretciler():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
 
-@app.route("/ziyaretciler", methods=["GET", "POST"])
-def ziyaretciler():
+@app.route("/sehir", methods=["GET", "POST"])
+def sehir():
     conn = connect_db()
     cur = conn.cursor()
 
-    cur.execute("CREATE TABLE IF NOT EXISTS ziyaretciler (id SERIAL PRIMARY KEY, isim TEXT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS sehir (id SERIAL PRIMARY KEY, isim TEXT)")
