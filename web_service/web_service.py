@@ -20,7 +20,7 @@ li { background: white; margin: 5px auto; width: 200px; padding: 8px; border-rad
 </head>
 <body>
 <h1>Mikro Hizmetli Selam!</h1>
-<p>Adını yaz                Şehir yaz</p>
+<p>Adını yaz         /       Şehir yaz</p>
 <form method="POST">
   <input type="text" name="isim" placeholder="Adını yaz" required>  
   <input type="text" name="sehir" placeholder="Şehir yaz" required>
@@ -47,12 +47,17 @@ li { background: white; margin: 5px auto; width: 200px; padding: 8px; border-rad
 def index():
     if request.method == "POST":
         isim = request.form.get("isim")
+        sehir = request.form.get("sehir")
         requests.post(API_URL + "/ziyaretciler", json={"isim": isim})
+        requests.post(API_URL + "/sehirler", json={"sehir": sehir})
         return redirect("/")
 
     resp = requests.get(API_URL + "/ziyaretciler")
+    resp = requests.get(API_URL + "/sehirler")
     isimler = resp.json() if resp.status_code == 200 else []
     return render_template_string(HTML, isimler=isimler)
+    return render_template_string(HTML, sehirler=sehirler)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
