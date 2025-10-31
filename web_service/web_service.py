@@ -47,17 +47,22 @@ li { background: white; margin: 5px auto; width: 200px; padding: 8px; border-rad
 def index():
     if request.method == "POST":
         isim = request.form.get("isim")
-        sehir = request.form.get("sehir")
         requests.post(API_URL + "/ziyaretciler", json={"isim": isim})
-        requests.post(API_URL + "/sehirler", json={"sehir": sehir})
         return redirect("/")
 
     resp = requests.get(API_URL + "/ziyaretciler")
-    resp = requests.get(API_URL + "/sehirler")
     isimler = resp.json() if resp.status_code == 200 else []
     return render_template_string(HTML, isimler=isimler)
-    return render_template_string(HTML, sehirler=sehirler)
 
+def index():
+    if request.method == "POST":
+        isim = request.form.get("sehir")
+        requests.post(API_URL + "/sehirler", json={"sehir": sehir})
+        return redirect("/")
+
+    resp = requests.get(API_URL + "/sehirler")
+    sehirler = resp.json() if resp.status_code == 200 else []
+    return render_template_string(HTML, sehirler=sehirler)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
