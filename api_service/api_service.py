@@ -10,7 +10,7 @@ DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://hello_cloud1_db_user:d7ZK
 def connect_db():
     return psycopg2.connect(DATABASE_URL)
 
-@app.route("/ziyaretciler" "/sehirler", methods=["GET", "POST"])
+@app.route("/ziyaretciler", methods=["GET", "POST"])
 def ziyaretciler():
     conn = connect_db()
     cur = conn.cursor()
@@ -33,6 +33,27 @@ def ziyaretciler():
 
 
 
+
+@app.route("/sehirler", methods=["GET", "POST"])
+def sehirler():
+    conn = connect_db()
+    cur = conn.cursor()
+
+    cur.execute("CREATE TABLE IF NOT EXISTS sehirler (id SERIAL PRIMARY KEY, isim TEXT)")
+
+    if request.method == "POST":
+        sehir = request.json.get("sehir")
+        if sehir:
+            cur.execute("INSERT INTO sehirler (isim) VALUES (%s)", (sehir,))
+            conn.commit()
+
+    cur.execute("SELECT isim FROM sehirler ORDER BY id DESC LIMIT 10")
+    sehirler = [row[0] for row in cur.fetchall()]
+
+    cur.close()
+    conn.close()
+
+    return jsonify(sehirler)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
