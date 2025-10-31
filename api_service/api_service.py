@@ -10,7 +10,7 @@ DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://hello_cloud1_db_user:d7ZK
 def connect_db():
     return psycopg2.connect(DATABASE_URL)
 
-@app.route("/ziyaretciler", methods=["GET", "POST"])
+@app.route("/ziyaretciler" "/sehirler", methods=["GET", "POST"])
 def ziyaretciler():
     conn = connect_db()
     cur = conn.cursor()
@@ -32,9 +32,6 @@ def ziyaretciler():
     return jsonify(isimler)
 
 
-
-
-@app.route("/sehirler", methods=["GET", "POST"])
 def sehirler():
     conn = connect_db()
     cur = conn.cursor()
