@@ -6,49 +6,46 @@ app = Flask(__name__)
 CORS(app)
 
 DATABASE_URL = os.getenv(
-    "DATABASE_URL", 
+    "DATABASE_URL",
     "postgresql://hello_cloud1_db_user:d7ZKfT6I8IUdEN9oRWWGCWDTbXhTRYBa@dpg-d3tjhcggjchc73fan1dg-a.oregon-postgres.render.com/hello_cloud1_db"
 )
 
 def connect_db():
     return psycopg2.connect(DATABASE_URL)
 
-# ----------------- ZİYARETÇİLER -----------------
 @app.route("/ziyaretciler", methods=["GET", "POST"])
 def ziyaretciler():
     conn = connect_db()
     cur = conn.cursor()
 
-    # Tabloyu oluştur
+    # Tabloya sehir sütunu ekledik
     cur.execute("""
         CREATE TABLE IF NOT EXISTS ziyaretciler (
             id SERIAL PRIMARY KEY,
-            isim TEXT
+            isim TEXT,
+            sehir TEXT
         )
     """)
 
-    # POST ile veri ekle
     if request.method == "POST":
-        isim = request.json.get("isim")
-        if isim:
-            cur.execute("INSERT INTO ziyaretciler (isim) VALUES (%s)", (isim,))
+        data = request.json
+        isim = data.get("isim")
+        sehir = data.get("sehir")
+        if isim and sehir:
+            cur.execute(
+                "INSERT INTO ziyaretciler (isim, sehir) VALUES (%s, %s)",
+                (isim, sehir)
+            )
             conn.commit()
 
-    # GET ile son 10 ziyaretçiyi al
-    cur.execute("SELECT isim FROM ziyaretciler ORDER BY id DESC LIMIT 10")
-    isimler = [row[0] for row in cur.fetchall()]
+    # Artık hem isim hem şehir çekiyoruz
+    cur.execute("SELECT isim, sehir FROM ziyaretciler ORDER BY id DESC LIMIT 10")
+    ziyaretciler_list = [{"isim": row[0], "sehir": row[1]} for row in cur.fetchall()]
 
     cur.close()
     conn.close()
 
-    return jsonify(isimler)
-
-# ----------------- ÖRNEK TEST -----------------
-# POST isteği ile veri eklemek için örnek:
-# curl -X POST http://localhost:5001/ziyaretciler \
-#      -H "Content-Type: application/json" \
-#      -d '{"isim": "Ahmet"}'
+    return jsonify(ziyaretciler_list)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
-
