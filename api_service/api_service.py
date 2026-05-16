@@ -5,7 +5,7 @@ import psycopg2, os
 app = Flask(__name__)
 CORS(app)
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://hello_cloud1_db_user:d7ZKfT6I8IUdEN9oRWWGCWDTbXhTRYBa@dpg-d3tjhcggjchc73fan1dg-a.oregon-postgres.render.com/hello_cloud1_db")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://guest_book_db_user:aBSP5Jpk7rNd7YJrR6M6z6aLZMxIodA2@dpg-d84cgen7f7vs73a01pn0-a.oregon-postgres.render.com/guest_book_db")
 
 @app.route("/ziyaretciler", methods=["GET", "POST"])
 def ziyaretciler():
