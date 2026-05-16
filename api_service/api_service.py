@@ -10,7 +10,9 @@ def connect_db():
 def ziyaretciler():
     conn = connect_db()
     cur = conn.cursor()
+    cur.execute("DROP TABLE IF EXISTS ziyaretciler")
     cur.execute("CREATE TABLE IF NOT EXISTS ziyaretciler (id SERIAL PRIMARY KEY, isim TEXT, mesaj TEXT)")
+    conn.commit()
     if request.method == "POST":
         isim = request.json.get("isim")
         mesaj = request.json.get("mesaj")
